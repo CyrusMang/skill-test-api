@@ -1,17 +1,19 @@
 const path = require('path')
 const koa = require('koa')
 const bodyParser = require('koa-bodyparser')
-const { dbclient } = require('./helpers/database')
+const { createClient } = require('./helpers/database')
 const { router } = require('./helpers/router')
 const dirimport = require('./helpers/dirimport')
+const mongodbconfig = require(process.env.MONGODB || './keys/mongodb.json')
 
 const server = async () => {
   try {
-    await dbclient.connect()
+    await createClient(mongodbconfig.connection).connect()
     dirimport(path.join(__dirname, 'routes'))
+    dirimport(path.join(__dirname, 'models'))
     
     const app = new koa()
-    const port = process.env.PORT || 80
+    const port = process.env.PORT || 8000
     app.use(bodyParser())
     app.use(async (ctx, next) => {
       ctx.set('Access-Control-Allow-Origin', '*')

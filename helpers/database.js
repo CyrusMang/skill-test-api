@@ -1,4 +1,7 @@
 const mongodb = require('mongodb')
-const mongodbconfig = require(process.env.MONGODB)
 
-module.exports.dbclient = new mongodb.MongoClient(mongodbconfig.connection, { useUnifiedTopology: true })
+module.exports.dbclient = null
+module.exports.createClient = str => {
+  module.exports.dbclient = new mongodb.MongoClient(str, { useUnifiedTopology: true })
+  return module.exports.dbclient
+}
