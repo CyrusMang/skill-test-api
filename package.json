@@ -1,7 +1,7 @@
 {
-  "name": "devcon-comment",
+  "name": "skills-grading-system",
   "version": "1.0.0",
-  "description": "comment service",
+  "description": "koa.js mongodb",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"

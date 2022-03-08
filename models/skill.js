@@ -1,13 +1,17 @@
-const ObjectID = require('mongodb').ObjectID
 const { dbclient } = require('../helpers/database')
 const { register } = require('../helpers/models')
 
 const SkillCollection = dbclient.db('skill').collection('skills')
 
 class Skill {
-  static find = async () => {
+  constructor(ctx, data) {
+    this.ctx = ctx
+    this.data = data
+  }
+  static all = async ctx => {
     try {
-      return SkillCollection.find().toArray()
+      const skills = await SkillCollection.find().toArray()
+      return skills.map(data => new Skill(ctx, data))
     } catch (e) {
       throw e
     }

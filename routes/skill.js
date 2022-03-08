@@ -1,6 +1,5 @@
 const { _ } = require('../helpers/router')
 const { m } = require('../helpers/models')
-const Skill = require('../models/skill')
 
 _({
   method: 'GET',
@@ -8,7 +7,8 @@ _({
   handler: [
     async (ctx, next) => {
       try {
-        ctx.body = await m('Skill').find()
+        const skills = await m('Skill').all(ctx)
+        ctx.body = skills.map(s => s.data)
       } catch (e) {
         throw e
       }
